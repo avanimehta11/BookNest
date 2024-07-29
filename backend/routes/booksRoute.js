@@ -12,12 +12,12 @@ router.post("/", async (req, res) => {
         message: "Send all required fields: title, author and publish year",
       });
     }
-    const newBook = {
+    const newBook = new Book({
       title: req.body.title,
       author: req.body.author,
       publishYear: req.body.publishYear,
-    };
-    const book = await Book.create(newBook);
+    });
+    const book = await newBook.save();
     return res.status(201).send({
       data: book,
     });
@@ -99,7 +99,7 @@ router.delete("/:id", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({
-      message: err.message,
+      message: "Unsuccessful in deleting the book. Please try again later.",
     });
   }
 });
